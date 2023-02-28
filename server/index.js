@@ -1,88 +1,51 @@
-const express = require('express');
-const mongoose = require('mongoose');
-
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
+const authRoutes = require("./routes/auth");
+const messageRoutes = require("./routes/messages");
 const app = express();
+const socket = require("socket.io");
+require("dotenv").config();
 
-// Подключение к MongoDB
-mongoose.connect('mongodb://localhost:27017/chatapp', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(() => {
-  console.log('MongoDB connected');
-}).catch((err) => {
-  console.log(`MongoDB connection error: ${err}`);
-});
-
-// Создание схемы сообщения
-const messageSchema = new mongoose.Schema({
-  author: String,
-  text: String,
-  createdAt: { type: Date, default: Date.now }
-});
-
-// Создание схемы пользователя
-const userSchema = new mongoose.Schema({
-  username: { type: String, unique: true },
-  password: String,
-});
-
-// Создание модели сообщения
-const Message = mongoose.model('Message', messageSchema);
-
-// Создание модели пользователя
-const User = mongoose.model('User', userSchema);
-
-// Middleware для обработки запросов с данными в формате JSON
+app.use(cors());
 app.use(express.json());
 
-// Middleware для обработки CORS
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  next();
-});
-
-// Обработчик для получения списка сообщений
-app.get('/messages', async (req, res) => {
-  try {
-    const messages = await Message.find();
-    res.send(messages);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
-
-// Обработчик для добавления нового сообщения
-app.post('/messages', async (req, res) => {
-  const message = new Message({
-    author: req.body.author,
-    text: req.body.text
+mongoose
+  .connect("mongodb://localhost:27017/chat", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("DB Connetion Successfull");
+  })
+  .catch((err) => {
+    console.log("DB Connection error: " + err.message);
   });
 
-  try {
-    await message.save();
-    res.send(message);
-  } catch (err) {
-    res.status(500).send(err);
-  }
+  app.use("/auth", authRoutes);
+  app.use("/messages", messageRoutes);
+
+const server = app.listen(5000, () =>
+  console.log(`Server started on 5000`)
+);
+const io = socket(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    credentials: true,
+  },
 });
 
-// Обработчик для создания нового пользователя
-app.post('/users', async (req, res) => {
-  const user = new User({
-    username: req.body.username,
-    password: req.body.password
+global.onlineUsers = new Map();
+io.on("connection", (socket) => {
+  global.chatSocket = socket;
+  socket.on("add-user", (userId) => {
+    onlineUsers.set(userId, socket.id);
   });
 
-  try {
-    await user.save();
-    res.send(user);
-  } catch (err) {
-    res.status(500).send(err);
-  }
-});
-
-// Запуск сервера
-app.listen(5000, () => {
-  console.log('Server started on port 5000');
+  socket.on("send-msg", (data) => {
+    const sendUserSocket = onlineUsers.get(data.to);
+    if (sendUserSocket) {
+      socket.to(sendUserSocket).emit("msg-recieve", data.msg);
+    }
+  });
 });
