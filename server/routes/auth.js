@@ -7,7 +7,6 @@ const {
   const router = require("express").Router();
   
   router.post("/register", register);
-  router.get("/allusers/:id", getAllUsers);
-  router.post("/setavatar/:id", setAvatar);
+  router.get("/allusers", getAllUsers);
   
   module.exports = router;
