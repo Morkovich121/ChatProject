@@ -7,7 +7,6 @@ const app = express();
 mongoose.connect('mongodb://localhost:27017/chatapp', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useCreateIndex: true,
 }).then(() => {
   console.log('MongoDB connected');
 }).catch((err) => {
