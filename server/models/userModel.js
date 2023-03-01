@@ -12,6 +12,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  networkStatus: {
+    type: String,
+    default: "offline",
+  }
 });
 
 module.exports = mongoose.model("Users", userSchema);

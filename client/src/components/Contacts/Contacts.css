@@ -1,0 +1,37 @@
+.contactsContainer {
+    display: flex;
+}
+
+.userCard {
+    display: flex;
+    gap: 10px;
+    width: 235px;
+    height: 80px;
+    align-items: center;
+}
+
+.userCard img {
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.nickname {
+    text-align: left;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.status {
+    text-align: left;
+    font-size: 14px;
+}
+
+.activeChat {
+    background-color: rgb(222, 221, 221);
+}

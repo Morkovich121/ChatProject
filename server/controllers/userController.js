@@ -9,7 +9,7 @@ module.exports.register = async (req, res, next) => {
       return res.json({ msg: "Username already used", status: false });
     const user = await User.create({
       username,
-      avatarImage
+      avatarImage,
     });
     return res.json({ status: true, user });
   } catch (ex) {
@@ -23,9 +23,27 @@ module.exports.getAllUsers = async (req, res, next) => {
       "username",
       "avatarImage",
       "_id",
+      "networkStatus"
     ]);
     return res.json(users);
   } catch (ex) {
     next(ex);
   }
 };
+
+module.exports.changeUser = async (req, res, next) => {
+  try {
+    var id = req.params.id;
+    const result = await User.updateOne(
+      { "_id": id },
+      { $set: { "networkStatus": req.body.status } }
+    ).exec();
+    if (result.modifiedCount === 1) {
+      res.send("User updated successfully");
+    } else {
+      res.send("User not found or not updated");
+    }
+  } catch (ex) {
+    next(ex)
+  }
+}

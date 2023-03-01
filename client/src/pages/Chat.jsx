@@ -1,8 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
-import { allUsersRoute, host, registerRoute } from "../utils/APIRoutes";
+import { host, registerRoute, updateRoute } from "../utils/APIRoutes";
+import Contacts from "../components/Contacts/Contacts";
 
+import './Chat.css';
+
+
+//Needs to be reworked with classes
 const nicknames = [
     'LuckyLeaf',
     'FrostyGaze',
@@ -27,26 +32,7 @@ const nicknames = [
 ];
 
 const avatarUrls = [
-    'https://i.imgur.com/UZXrkHC.jpg',
-    'https://i.imgur.com/lbTlK2T.jpg',
-    'https://i.imgur.com/WKBoA3q.jpg',
-    'https://i.imgur.com/kog42Kf.jpg',
-    'https://i.imgur.com/4wBtmZ1.jpg',
-    'https://i.imgur.com/txrlT2T.jpg',
-    'https://i.imgur.com/MwT1zEd.jpg',
-    'https://i.imgur.com/2CQkmRj.jpg',
-    'https://i.imgur.com/Zw4m4ZV.jpg',
-    'https://i.imgur.com/5r5SP7A.jpg',
-    'https://i.imgur.com/91w2Q7Z.jpg',
-    'https://i.imgur.com/e29Hx1C.jpg',
-    'https://i.imgur.com/86lGToA.jpg',
-    'https://i.imgur.com/XSGX6AC.jpg',
-    'https://i.imgur.com/g6rvH8j.jpg',
-    'https://i.imgur.com/w0l0ngB.jpg',
-    'https://i.imgur.com/w3uV7ok.jpg',
-    'https://i.imgur.com/Y3q3Wny.jpg',
-    'https://i.imgur.com/DYdYtW4.jpg',
-    'https://i.imgur.com/6MWzLaH.jpg'
+    "//phonoteka.org/uploads/posts/2021-07/1625100835_10-phonoteka_org-p-oboi-na-rabochii-stol-patrik-krasivo-11.jpg"
 ];
 
 
@@ -54,20 +40,54 @@ const avatarLink = avatarUrls[Math.floor(Math.random() * avatarUrls.length)]
 const userName = nicknames[Math.floor(Math.random() * nicknames.length)]
 
 export const Chat = () => {
-    const socket = useRef();
     const [contacts, setContacts] = useState([]);
     const [currentChat, setCurrentChat] = useState(undefined);
     const [currentUser, setCurrentUser] = useState(undefined);
+
+    const socket = io('http://localhost:5000');
+
+    console.log(currentUser);
+
+    useEffect(() => {
+        window.addEventListener("beforeunload", () => {
+            socket.disconnect();
+        });
+        return () => {
+            window.removeEventListener("beforeunload", () => {
+                socket.disconnect();
+            });
+        };
+    }, [socket]);
+
+
+    if (currentUser)
+        socket.on('connect', async () => {
+            const url = updateRoute + currentUser._id;
+            axios.put(url, ({
+                status: "online"
+            }))
+        });
+
+    if (currentUser)
+        socket.on('disconnect', async () => {
+            const url = updateRoute + currentUser._id;
+            axios.put(url, ({
+                status: "offline"
+            }))
+        });
+
+
 
     const createAccount = async () => {
         let user = userName;
         const avatar = avatarLink;
         let counter = 0;
 
-        while (true && counter++ < 5) {
+        while (true && counter++ < 1) {
             const { data } = await axios.post(registerRoute, ({
                 username: user,
                 avatarImage: avatar,
+                networkStatus: "offline"
             }));
 
             if (data.status === true) {
@@ -104,24 +124,16 @@ export const Chat = () => {
         }
     }, [currentUser]);
 
-    useEffect(() => {
-        const getData = async () => {
-            if (currentUser) {
-                const data = await axios.get(`${allUsersRoute}`);
-                setContacts(data.data);
-            }
-        }
-
-        getData();
-    }, [currentUser]);
-
     const handleChatChange = (chat) => {
         setCurrentChat(chat);
+        console.log(chat);
     };
 
     return (
         <>
-            123
+            <div className="chatContainer">
+                <Contacts handleChatChange={handleChatChange} />
+            </div>
         </>
     );
 }
