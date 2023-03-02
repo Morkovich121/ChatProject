@@ -26,6 +26,7 @@
 .userInfo {
     display: flex;
     flex-direction: column;
+    justify-content: center;
 }
 
 .nickname {
@@ -36,7 +37,7 @@
 
 .status {
     text-align: left;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
 }
 
 .activeChat {
@@ -57,6 +58,7 @@
     height: 5vh;
     background-color: #F8F8F8;
     border: 1px solid lightgray;
+    box-sizing: border-box;
 }
 
 .activeButton {
@@ -91,6 +93,8 @@
     position: relative;
     width: 60px;
     height: 60px;
+    display: flex;
+    align-items: center;
 }
 
 @media only screen and (max-width: 767px) {
@@ -126,6 +130,10 @@
     .statusFilter {
         flex-direction: row;
         margin-top: 10px;
+    }
+
+    .status {
+        display: none;
     }
 
     .button {

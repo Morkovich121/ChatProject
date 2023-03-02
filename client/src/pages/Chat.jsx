@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
 import { host, registerRoute, updateRoute } from "../utils/APIRoutes";
@@ -45,8 +45,6 @@ export const Chat = () => {
     const [currentUser, setCurrentUser] = useState(undefined);
 
     const socket = io('http://localhost:5000');
-
-    console.log(currentUser);
 
     useEffect(() => {
         window.addEventListener("beforeunload", () => {
@@ -122,16 +120,21 @@ export const Chat = () => {
             socket.current = io(host);
             socket.current.emit("add-user", currentUser._id);
         }
-    }, [currentUser]);
+    }, [currentUser, socket]);
 
     const handleChatChange = (chat) => {
         setCurrentChat(chat);
-        console.log(chat);
     };
 
     return (
         <>
             <div className="chatContainer">
+                {currentChat ? <ChatSection currentChat={currentChat} socket={socket} /> :
+                    <div
+                        className="chatSection"
+                        style={{ justifyContent: "center" }}>
+                        <h3>Choose active chat</h3>
+                    </div>}
                 <Contacts handleChatChange={handleChatChange} />
             </div>
         </>

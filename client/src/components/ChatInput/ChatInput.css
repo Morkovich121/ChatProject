@@ -1,0 +1,30 @@
+.inputContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 1vw;
+}
+
+.inputContainer input {
+    width: 79%;
+    height: 5vh;
+    padding: 0px 10px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    border: 2px solid #A4D0F1;
+}
+
+.inputContainer input:focus {
+    outline: none;
+}
+
+.inputContainer button {
+    width: 15%;
+    height: 5vh;
+    padding: auto;
+    background-color: #428BCA;
+    border: none;
+    box-sizing: border-box;
+    border-radius: 5px;
+    color: white;
+}

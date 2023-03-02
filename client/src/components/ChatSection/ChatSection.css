@@ -3,7 +3,112 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    gap: 2vh;
     width: 66vw;
     min-width: 130px;
     height: 95%;
+}
+
+.chatSectionHeader {
+    display: flex;
+    width: 100%;
+    height: 25%;
+}
+
+.chatUserImage {
+    height: 100%;
+}
+
+.chatUserInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    padding: 2vh 2vw;
+    background-color: #BECBD9;
+}
+
+.chatUserInfoUsername {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.chatSectionMain {
+    display: flex;
+    flex-direction: column;
+    height: 60%;
+    width: 100%;
+    gap: 3vh;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 0px 2vw;
+    padding-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.chatSectionSearch {
+    width: 100%;
+    height: 12%;
+}
+
+.message {
+    width: 70%;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    border: none;
+    word-wrap: break-word;
+    height: fit-content;
+}
+
+.sender {
+    padding: 1vh 1vw;
+    display: flex;
+    justify-content: space-between;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+.sender span:nth-of-type(2) {
+    opacity: 30%;
+}
+
+.recieved .sender {
+    background-color: #BECBD9;
+}
+
+.sended .sender {
+    background-color: #F0CBB3;
+}
+
+.messageText {
+    position: relative;
+    padding: 1vh 1vw;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background-color: white;
+}
+
+.sended {
+    float: right;
+}
+
+.triangle {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 15px solid transparent;
+    border-left: 15px solid rgb(255, 255, 255);
+}
+
+.sended .messageText .triangle {
+    top: 25%;
+    left: 98.8%;
+    transform: rotate(-135deg);
+}
+
+.recieved .messageText .triangle {
+    top: 25%;
+    left: -1%;
+    transform: rotate(45deg);
 }
