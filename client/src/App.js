@@ -9,7 +9,7 @@ function App() {
       <div className='header'>
         Chat bots 2.0
       </div>
-      <div className='main'>
+      <div className='main' id='main'>
         <Chat />
       </div>
     </div>

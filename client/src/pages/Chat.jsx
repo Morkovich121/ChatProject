@@ -3,17 +3,16 @@ import axios from "axios";
 import { io } from "socket.io-client";
 import { host, registerRoute, updateRoute } from "../utils/APIRoutes";
 import Contacts from "../components/Contacts/Contacts";
-import { allUsersRoute, sendMessageRoute, recieveMessageRoute } from "../utils/APIRoutes";
+import { allUsersRoute, sendMessageRoute } from "../utils/APIRoutes";
 import ChatSection from "../components/ChatSection/ChatSection";
 import { SpamBot } from "../components/ChatSection/ChatSection";
 import { MessageGenerator } from "../components/ChatSection/ChatSection";
-
+import MyUseState from "../utils/myUseState";
 
 import './Chat.css';
 import { useRef } from "react";
 
 
-//Needs to be reworked with classes
 const nicknames = [
     'LuckyLeaf',
     'FrostyGaze',
@@ -41,17 +40,17 @@ const avatarUrls = [
     "//phonoteka.org/uploads/posts/2021-07/1625100835_10-phonoteka_org-p-oboi-na-rabochii-stol-patrik-krasivo-11.jpg"
 ];
 
-
 const avatarLink = avatarUrls[Math.floor(Math.random() * avatarUrls.length)]
 const userName = nicknames[Math.floor(Math.random() * nicknames.length)]
 
 export const Chat = () => {
     const myRef = useRef(null);
     const [contacts, setContacts] = useState([]);
-    const [messages, setMessages] = useState([]);
     const [currentChat, setCurrentChat] = useState(undefined);
     const [currentUser, setCurrentUser] = useState(undefined);
 
+    const [test1, setTest1] = MyUseState(1);
+    const [test2, setTest2] = MyUseState(1);
 
     const socket = io('http://localhost:5000');
 
@@ -192,6 +191,8 @@ export const Chat = () => {
         setCurrentChat(chat);
     };
 
+    //Для проверки MyUseState в последнем условии false ? ... изменить на true ? ...
+
     return (
         <>
             <div ref={myRef} className="chatContainer">
@@ -203,6 +204,9 @@ export const Chat = () => {
                     </div>}
                 <Contacts handleChatChange={handleChatChange} />
             </div>
+            {false ? (<div><button onClick={() => { setTest1(test1 + 1) }}>{test1}</button>
+                <button onClick={() => { setTest2(test2 + 1) }}>{test2}</button></div>) : null}
         </>
     );
 }
+
