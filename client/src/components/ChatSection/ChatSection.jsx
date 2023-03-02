@@ -41,6 +41,7 @@ const ChatSection = ({ currentChat, socket }) => {
             message: msg,
         });
 
+        console.log("Message sent");
         const date = new Date()
         const msgs = [...messages];
         msgs.push({
@@ -54,7 +55,8 @@ const ChatSection = ({ currentChat, socket }) => {
     useEffect(() => {
         if (socket.current) {
             socket.current.on("msg-recieve", (msg) => {
-                const date = new Date()
+                const date = new Date();
+                console.log("New message");
                 scrollRef.current?.scrollIntoView({ behavior: "smooth" });
                 setArrivalMessage({
                     fromSelf: false,

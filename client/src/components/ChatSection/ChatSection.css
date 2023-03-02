@@ -12,11 +12,12 @@
 .chatSectionHeader {
     display: flex;
     width: 100%;
-    height: 25%;
+    height: fit-content;
 }
 
 .chatUserImage {
     height: 100%;
+    width: 10vw;
 }
 
 .chatUserInfo {
@@ -35,7 +36,7 @@
 .chatSectionMain {
     display: flex;
     flex-direction: column;
-    height: 60%;
+    height: 70%;
     width: 100%;
     gap: 3vh;
     overflow-y: scroll;
@@ -59,6 +60,7 @@
     border: none;
     word-wrap: break-word;
     height: fit-content;
+    box-sizing: border-box;
 }
 
 .sender {
@@ -87,6 +89,7 @@
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
     background-color: white;
+    box-sizing: border-box;
 }
 
 .sended {
@@ -111,4 +114,37 @@
     top: 25%;
     left: -1%;
     transform: rotate(45deg);
+}
+
+@media only screen and (max-width: 1120px) {
+
+    .chatUserInfoText {
+        font-size: 0.9rem;
+    }
+}
+
+@media only screen and (max-width: 1010px) {
+
+    .chatUserInfoText {
+        font-size: 0.8rem;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .chatUserInfoText {
+        display: none;
+    }
+
+    .chatUserInfo {
+        width: 100%;
+        align-items: center;
+    }
+
+    .chatSectionMain {
+        height: 80%;
+    }
+
+    .triangle{
+        display: none;
+    }
 }

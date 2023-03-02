@@ -28,3 +28,24 @@
     border-radius: 5px;
     color: white;
 }
+
+@media only screen and (max-width: 767px) {
+    .inputContainer input {
+        width: 65%;
+    }
+
+    .inputContainer button {
+        width: 25%;
+    }
+}
+
+@media only screen and (max-width: 479px) {
+    .inputContainer input {
+        width: 55%;
+    }
+
+    .inputContainer button {
+        width: fit-content;
+        font-size: 0.6rem;
+    }
+}
