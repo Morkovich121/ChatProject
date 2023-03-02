@@ -1,5 +1,9 @@
 .chatContainer {
     display: flex;
     justify-content: center;
-    align-items: center;
 }
+
+.chatSection {
+    width: 66vw
+}
+

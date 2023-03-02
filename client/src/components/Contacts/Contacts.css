@@ -1,11 +1,17 @@
 .contactsContainer {
     display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+    width: 16.5vw;
+    min-width: 130px;
+    height: 95%;
 }
 
 .userCard {
     display: flex;
-    gap: 10px;
-    width: 235px;
+    gap: 15px;
+    width: 15.5vw;
     height: 80px;
     align-items: center;
 }
@@ -14,6 +20,7 @@
     width: 60px;
     height: 60px;
     border-radius: 5px;
+    margin-left: 0.7vw;
 }
 
 .userInfo {
@@ -24,14 +31,151 @@
 .nickname {
     text-align: left;
     font-weight: 700;
-    font-size: 16px;
+    font-size: 1rem;
 }
 
 .status {
     text-align: left;
-    font-size: 14px;
+    font-size: 0.85rem;
 }
 
 .activeChat {
-    background-color: rgb(222, 221, 221);
+    background-color: #F8F8F8;
+}
+
+.statusFilter {
+    display: flex;
+    padding-top: 0px;
+    width: 100%
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 5vh;
+    background-color: #F8F8F8;
+    border: 1px solid lightgray;
+}
+
+.activeButton {
+    border: none;
+    background-color: #FFFFFF;
+}
+
+.contactsSection {
+    height: 85%;
+}
+
+.search {
+    display: flex;
+    height: 5%;
+    width: 80%;
+    border-radius: 5px;
+    padding: 0px 10px;
+}
+
+.onlineStatus {
+    position: absolute;
+    top: 80%;
+    left: 95%;
+    width: 1vw;
+    height: 1vw;
+    border-radius: 50%;
+    background-color: #20D63E;
+    z-index: 10000;
+}
+
+.avatarSection {
+    position: relative;
+    width: 60px;
+    height: 60px;
+}
+
+@media only screen and (max-width: 767px) {
+    .chatSection {
+        display: none;
+    }
+
+    .contactsContainer {
+        width: 100%;
+        float: none;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .userCard {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        padding: 10px 0px;
+    }
+
+    .userCard img {
+        width: 50px;
+        height: 50px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    .userInfo {
+        flex: 1;
+    }
+
+    .statusFilter {
+        flex-direction: row;
+        margin-top: 10px;
+    }
+
+    .button {
+        height: 40px;
+        font-size: 0.8rem;
+    }
+
+    .search {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .onlineStatus {
+        top: 55%;
+        left: 65%;
+        width: 2vw;
+        height: 2vw;
+    }
+}
+
+@media only screen and (max-width: 479px) {
+    .userCard img {
+        width: 40px;
+        height: 40px;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .nickname {
+        font-size: 0.9rem;
+    }
+
+    .status {
+        font-size: 0.7rem;
+    }
+}
+
+@media only screen and (max-width: 479px) {
+    .userCard img {
+        width: 40px;
+        height: 40px;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .nickname {
+        font-size: 0.9rem;
+    }
+
+    .status {
+        font-size: 0.7rem;
+    }
 }

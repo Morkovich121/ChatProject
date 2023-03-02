@@ -1,0 +1,9 @@
+.chatSection {
+    background-color: #D7DFE7;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 66vw;
+    min-width: 130px;
+    height: 95%;
+}

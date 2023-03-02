@@ -5,6 +5,7 @@ import { host, registerRoute, updateRoute } from "../utils/APIRoutes";
 import Contacts from "../components/Contacts/Contacts";
 
 import './Chat.css';
+import ChatSection from "../components/ChatSection/ChatSection";
 
 
 //Needs to be reworked with classes
@@ -40,7 +41,6 @@ const avatarLink = avatarUrls[Math.floor(Math.random() * avatarUrls.length)]
 const userName = nicknames[Math.floor(Math.random() * nicknames.length)]
 
 export const Chat = () => {
-    const [contacts, setContacts] = useState([]);
     const [currentChat, setCurrentChat] = useState(undefined);
     const [currentUser, setCurrentUser] = useState(undefined);
 
