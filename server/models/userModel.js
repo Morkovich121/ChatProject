@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
   },
   networkStatus: {
     type: String,
-    default: "offline",
+    default: "",
   }
 });
 

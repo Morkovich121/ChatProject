@@ -3,13 +3,14 @@ const bcrypt = require("bcrypt");
 
 module.exports.register = async (req, res, next) => {
   try {
-    const { username, avatarImage } = req.body;
+    const { username, avatarImage, networkStatus } = req.body;
     const usernameCheck = await User.findOne({ username });
     if (usernameCheck)
       return res.json({ msg: "Username already used", status: false });
     const user = await User.create({
       username,
       avatarImage,
+      networkStatus
     });
     return res.json({ status: true, user });
   } catch (ex) {

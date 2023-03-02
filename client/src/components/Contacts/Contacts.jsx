@@ -53,7 +53,6 @@ const Contacts = ({ handleChatChange }) => {
             if (isFiltered) {
                 allUsers = allUsers.filter((el) => el.networkStatus === "online");
             }
-            console.log(allUsers);
             setContacts(allUsers);
         }
 

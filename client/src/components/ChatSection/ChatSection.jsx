@@ -6,8 +6,91 @@ import { sendMessageRoute, recieveMessageRoute } from "../../utils/APIRoutes";
 import './ChatSection.css';
 import ChatInput from "../ChatInput/ChatInput";
 
+class Bot {
+    constructor(options) {
+        this.options = options;
+    }
+
+    reply(message) {
+        return "";
+    }
+}
+
+class EchoBot extends Bot {
+    constructor(options = {}) {
+        super(options);
+    }
+
+    reply(message) {
+        const { prefix = '', postfix = '' } = this.options;
+        return `${prefix}${message}${postfix}`;
+    }
+}
+
+class IgnoreBot extends Bot {
+    constructor(options = {}) {
+        super(options);
+    }
+
+    reply(message) {
+        return '';
+    }
+}
+
+export class SpamBot extends Bot {
+    constructor(generateMessage) {
+        super();
+        this.generateMessage = generateMessage;
+    }
+
+    reply() {
+        return this.generateMessage();
+    }
+}
+
+
+class ReverseBot extends Bot {
+    constructor(options = {}) {
+        super(options);
+    }
+
+    reply(message) {
+        const { transformFn = (str) => str.split('').reverse().join('') } = this.options;
+        return transformFn(message);
+    }
+}
+
+export class MessageGenerator {
+    constructor(options = {}) {
+        this.options = options;
+    }
+
+    generateMessage(options) {
+        if (!options?.generateMessage) {
+            const alphabet = 'abcdefghijklmnopqrstuvwxyz ';
+            const messageLength = Math.floor(Math.random() * 40) + 1;
+            let message = '';
+
+            for (let i = 0; i < messageLength; i++) {
+                const randomIndex = Math.floor(Math.random() * alphabet.length);
+                message += alphabet[randomIndex];
+            }
+
+            return message;
+        }
+        else {
+            return options.generateMessage();
+        }
+    }
+}
+
 
 const ChatSection = ({ currentChat, socket }) => {
+
+    const reverseBot = new ReverseBot();
+    const ignoreBot = new IgnoreBot();
+    const echoBot = new EchoBot();
+
     const [messages, setMessages] = useState([]);
     const scrollRef = useRef();
     const [arrivalMessage, setArrivalMessage] = useState(null);
@@ -49,6 +132,52 @@ const ChatSection = ({ currentChat, socket }) => {
                 "0" + date.getMinutes() :
                 date.getMinutes())
         });
+
+        if (currentChat.username === "Echo bot") {
+            await axios.post(sendMessageRoute, {
+                from: currentChat._id,
+                to: data._id,
+                message: echoBot.reply(msg),
+            })
+
+            msgs.push({
+                fromSelf: false, message: echoBot.reply(msg), createdAt: date.getHours() + ":" + (date.getMinutes() < 10 ?
+                    "0" + date.getMinutes() :
+                    date.getMinutes())
+            });
+        }
+
+        if (currentChat.username === "Reverse bot") {
+            await axios.post(sendMessageRoute, {
+                from: currentChat._id,
+                to: data._id,
+                message: reverseBot.reply(msg),
+            })
+
+            msgs.push({
+                fromSelf: false, message: reverseBot.reply(msg), createdAt: date.getHours() + ":" + (date.getMinutes() < 10 ?
+                    "0" + date.getMinutes() :
+                    date.getMinutes())
+            });
+        }
+
+        if (currentChat.username === "Ignorebot") {
+
+            if (ignoreBot.reply(msg)) {
+                await axios.post(sendMessageRoute, {
+                    from: currentChat._id,
+                    to: data._id,
+                    message: ignoreBot.reply(msg),
+                })
+                msgs.push({
+                    fromSelf: false, message: ignoreBot.reply(msg), createdAt: date.getHours() + ":" + (date.getMinutes() < 10 ?
+                        "0" + date.getMinutes() :
+                        date.getMinutes())
+                });
+            }
+
+        }
+
         setMessages(msgs);
     };
 
