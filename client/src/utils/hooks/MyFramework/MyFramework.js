@@ -3,7 +3,7 @@ import React from 'react';
 //Моя реализация useState. В данном случае useState и useCallback нужны лишь для перерисовки компонента
 //Так как они напрямую перерисовывают компонент
 
-function MyUseState(initialValue) {
+export function MyUseState(initialValue) {
     const stateRef = React.useRef(initialValue);
 
     const setState = (newValue) => {
@@ -17,4 +17,6 @@ function MyUseState(initialValue) {
     return [stateRef.current, setState];
 }
 
-export default MyUseState;
+export function render(component) {
+    return component();
+}
