@@ -1,22 +1,23 @@
-import React from 'react';
+let currentState = 0;
+let state = [];
 
-//Моя реализация useState. В данном случае useState и useCallback нужны лишь для перерисовки компонента
-//Так как они напрямую перерисовывают компонент
+export const useState = (initialState) => {
 
-export function MyUseState(initialValue) {
-    const stateRef = React.useRef(initialValue);
+    const id = currentState;
+    currentState++;
 
-    const setState = (newValue) => {
-        stateRef.current = newValue;
-        forceUpdate();
+    if (state[id] === undefined) {
+        state[id] = initialState;
+    }
+
+    const setState = (newState) => {
+        state[id] = newState;
     };
 
-    const [, updateState] = React.useState();
-    const forceUpdate = React.useCallback(() => updateState({}), []);
+    return [state[id], setState];
+};
 
-    return [stateRef.current, setState];
-}
-
-export function render(component) {
+export const render = (component) => {
+    currentState = 0;
     return component();
-}
+};
